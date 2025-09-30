@@ -10,25 +10,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/post-interaction")
+@RequestMapping("/post-interaction")
 @CrossOrigin("*")
 public class PostInteractionController {
 
     @Autowired
     PostInteractionCommandService postInteractionCommandService;
 
+    @PostMapping()
     public ResponseEntity<?> create(@RequestBody PostInteractionRequest request, @RequestParam Long postId,@RequestParam Long accountId){
         PostInteractionResponse response = postInteractionCommandService.create(request, postId, accountId);
         BaseResponseAPI<PostInteractionResponse> responseAPI = new BaseResponseAPI<>(true,"Create post interaction successfully",response,null);
         return ResponseEntity.ok(responseAPI);
     }
 
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody PostInteractionRequest request,@RequestParam Long id){
         PostInteractionResponse response = postInteractionCommandService.update(request, id);
         BaseResponseAPI<PostInteractionResponse> responseAPI = new BaseResponseAPI<>(true,"Update post interaction successfully",response,null);
         return ResponseEntity.ok(responseAPI);
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@RequestParam Long id){
         postInteractionCommandService.delete(id);
         BaseResponseAPI<?> responseAPI = new BaseResponseAPI<>(true,"Delete post interaction successfully",null,null);

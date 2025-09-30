@@ -9,26 +9,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/forum-post")
+@RequestMapping("/forum-post")
 @CrossOrigin("*")
 public class ForumPostController {
 
     @Autowired
     ForumPostCommandService forumPostCommandService;
 
-
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody ForumPostRequest request, @RequestParam Long accountId){
         ForumPostResponse response = forumPostCommandService.create(request,accountId);
         BaseResponseAPI<ForumPostResponse> responseAPI = new BaseResponseAPI<>(true,"Created forum post successfully",response,null);
         return ResponseEntity.ok(responseAPI);
     }
 
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody ForumPostRequest request,@RequestParam Long id){
         ForumPostResponse response = forumPostCommandService.update(request, id);
         BaseResponseAPI<ForumPostResponse> responseAPI = new BaseResponseAPI<>(true,"Updated forum post successfully",response,null);
         return ResponseEntity.ok(responseAPI);
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@RequestParam Long id){
         forumPostCommandService.delete(id);
         BaseResponseAPI<?> responseAPI = new BaseResponseAPI<>(true,"Deleted forum post successfully",null,null);
