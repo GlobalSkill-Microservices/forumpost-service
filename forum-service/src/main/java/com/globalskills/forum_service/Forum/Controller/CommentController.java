@@ -9,20 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping("/comment")
 @CrossOrigin("*")
 public class CommentController {
 
     @Autowired
     CommentCommandService commentCommandService;
 
-    @
+    @PostMapping()
     public ResponseEntity<?> create(@RequestBody CommentRequest request,@RequestParam Long accountId){
         CommentResponse response = commentCommandService.create(request, accountId);
         BaseResponseAPI<CommentResponse> responseAPI = new BaseResponseAPI<>(true,"Create comment successfully",response,null);
         return ResponseEntity.ok(responseAPI);
     }
-
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody CommentRequest request,@RequestParam Long id){
         CommentResponse response = commentCommandService.update(request, id);
         BaseResponseAPI<CommentResponse> responseAPI = new BaseResponseAPI<>(true,"Update comment successfully",response,null);
