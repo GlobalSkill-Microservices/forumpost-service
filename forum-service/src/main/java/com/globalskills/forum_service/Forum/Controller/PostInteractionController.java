@@ -6,6 +6,7 @@ import com.globalskills.forum_service.Forum.Dto.PostInteractionRequest;
 import com.globalskills.forum_service.Forum.Dto.PostInteractionResponse;
 import com.globalskills.forum_service.Forum.Service.PostInteractionCommandService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/post-interaction")
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 public class PostInteractionController {
 
     @Autowired

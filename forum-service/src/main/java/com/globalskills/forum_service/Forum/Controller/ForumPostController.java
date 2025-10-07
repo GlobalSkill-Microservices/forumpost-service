@@ -7,6 +7,7 @@ import com.globalskills.forum_service.Forum.Dto.ForumPostResponse;
 import com.globalskills.forum_service.Forum.Service.ForumPostCommandService;
 import com.globalskills.forum_service.Forum.Service.ForumPostQueryService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/forum-post")
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 public class ForumPostController {
 
     @Autowired
