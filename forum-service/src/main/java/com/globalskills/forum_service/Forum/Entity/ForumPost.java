@@ -1,8 +1,6 @@
 package com.globalskills.forum_service.Forum.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +17,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ForumPost {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String title;
     String content;
