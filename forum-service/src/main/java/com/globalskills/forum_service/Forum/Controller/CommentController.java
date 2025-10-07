@@ -5,6 +5,7 @@ import com.globalskills.forum_service.Forum.Dto.CommentRequest;
 import com.globalskills.forum_service.Forum.Dto.CommentResponse;
 import com.globalskills.forum_service.Forum.Service.CommentCommandService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/comment")
 @CrossOrigin("*")
+@SecurityRequirement(name = "api")
 public class CommentController {
 
     @Autowired
