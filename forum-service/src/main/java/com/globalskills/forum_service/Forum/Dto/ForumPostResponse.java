@@ -14,6 +14,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ForumPostResponse {
     Long id;
+    String title;
     String content;
     Long accountId;
     Date createdAt;
