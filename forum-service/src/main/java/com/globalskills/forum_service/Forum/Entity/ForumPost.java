@@ -20,6 +20,7 @@ import java.util.List;
 public class ForumPost {
     @Id
     Long id;
+    String title;
     String content;
     Long accountId;
     Date createdAt;

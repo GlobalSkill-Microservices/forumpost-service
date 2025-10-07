@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ForumPostRequest {
+    String title;
     String content;
     Boolean isPublic;
 }

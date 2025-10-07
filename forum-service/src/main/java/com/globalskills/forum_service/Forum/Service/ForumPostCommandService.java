@@ -34,6 +34,7 @@ public class ForumPostCommandService {
     public ForumPostResponse update (ForumPostRequest request,Long id){
         ForumPost oldPost = forumPostQueryService.findForumPostById(id);
         oldPost.setIsPublic(request.getIsPublic());
+        oldPost.setTitle(request.getTitle());
         oldPost.setContent(request.getContent());
         oldPost.setUpdatedAt(new Date());
         forumPostRepo.save(oldPost);
