@@ -4,8 +4,8 @@ import com.globalskills.forum_service.Common.BaseResponseAPI;
 import com.globalskills.forum_service.Common.PageResponse;
 import com.globalskills.forum_service.Forum.Dto.ForumPostRequest;
 import com.globalskills.forum_service.Forum.Dto.ForumPostResponse;
-import com.globalskills.forum_service.Forum.Service.ForumPostCommandService;
-import com.globalskills.forum_service.Forum.Service.ForumPostQueryService;
+import com.globalskills.forum_service.Forum.Service.Forum.ForumPostCommandService;
+import com.globalskills.forum_service.Forum.Service.Forum.ForumPostQueryService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,10 @@ public class ForumPostController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ForumPostRequest request,
+                                    @RequestParam(required = false) Long sharePostId,
                                     @Parameter(hidden = true)
                                     @RequestHeader(value = "X-User-ID",required = false) Long accountId){
-        ForumPostResponse response = forumPostCommandService.create(request,accountId);
+        ForumPostResponse response = forumPostCommandService.create(request,sharePostId,accountId);
         BaseResponseAPI<ForumPostResponse> responseAPI = new BaseResponseAPI<>(true,"Created forum post successfully",response,null);
         return ResponseEntity.ok(responseAPI);
     }
@@ -78,6 +79,19 @@ public class ForumPostController {
             @RequestParam(defaultValue = "desc") String sortDir
     ){
         PageResponse<ForumPostResponse> response = forumPostQueryService.getAllListForum(page, size, sortBy, sortDir);
+        BaseResponseAPI<PageResponse<ForumPostResponse>> responseAPI = new BaseResponseAPI<>(true,"Get all forum post",response,null);
+        return ResponseEntity.ok(responseAPI);
+    }
+
+    @GetMapping("/shared/{forumPostId}")
+    public ResponseEntity<?> getListShareOfPost(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDir,
+            @PathVariable Long forumPostId
+    ){
+        PageResponse<ForumPostResponse> response = forumPostQueryService.getListShareOfPost(forumPostId, page, size, sortBy, sortDir);
         BaseResponseAPI<PageResponse<ForumPostResponse>> responseAPI = new BaseResponseAPI<>(true,"Get all forum post",response,null);
         return ResponseEntity.ok(responseAPI);
     }

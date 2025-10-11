@@ -27,12 +27,20 @@ public class ForumPost {
     Boolean isPublic;
     Boolean isDeleted;
 
-    @OneToMany(mappedBy = "post")
+    @ManyToOne
+    @JoinColumn(name = "shared_post_id")
+    ForumPost sharedPost;
+
+    @OneToMany(mappedBy = "sharedPost", fetch = FetchType.LAZY)
+    List<ForumPost> shares;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> comments;
 
-    @OneToMany(mappedBy = "post")
-    List<Share> shares;
-
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<PostInteraction> interactions;
+
+    Integer commentCount = 0;
+    Integer shareCount = 0;
+    Integer interactionCount = 0;
 }

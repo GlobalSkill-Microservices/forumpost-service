@@ -6,7 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentResponse {
+    Long id;
+    Long accountId;
+    String content;
+    Date createdAt;
+    Date updatedAt;
+    ParentCommentResponse parentCommentResponse;
 }

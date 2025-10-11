@@ -21,4 +21,8 @@ public class ForumPostResponse {
     Date updatedAt;
     Boolean isPublic;
     Boolean isDeleted;
+    Integer commentCount;
+    Integer shareCount;
+    Integer interactionCount;
+    SharePostResponse sharePostResponse;
 }

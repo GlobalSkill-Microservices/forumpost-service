@@ -28,13 +28,15 @@ public class Comment {
     @JoinColumn(name = "post_id")
     ForumPost post;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<CommentInteraction> interactions;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
     Comment parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> replies;
+
+    Integer commentInteractionCount = 0;
 }
