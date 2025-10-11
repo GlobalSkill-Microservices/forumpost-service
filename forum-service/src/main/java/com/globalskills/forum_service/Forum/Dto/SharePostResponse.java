@@ -7,6 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ShareResponse {
+public class SharePostResponse {
+    Long id;
+    String title;
+    String content;
+    Long accountId;
+    Integer commentCount;
+    Integer shareCount;
+    Integer interactionCount;
 }

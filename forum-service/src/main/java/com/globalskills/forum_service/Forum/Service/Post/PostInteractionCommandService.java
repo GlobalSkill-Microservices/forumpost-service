@@ -1,10 +1,12 @@
-package com.globalskills.forum_service.Forum.Service;
+package com.globalskills.forum_service.Forum.Service.Post;
 
 import com.globalskills.forum_service.Forum.Dto.PostInteractionRequest;
 import com.globalskills.forum_service.Forum.Dto.PostInteractionResponse;
 import com.globalskills.forum_service.Forum.Entity.ForumPost;
 import com.globalskills.forum_service.Forum.Entity.PostInteraction;
+import com.globalskills.forum_service.Forum.Repository.ForumPostRepo;
 import com.globalskills.forum_service.Forum.Repository.PostInteractionRepo;
+import com.globalskills.forum_service.Forum.Service.Forum.ForumPostQueryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,17 +21,22 @@ public class PostInteractionCommandService {
     PostInteractionRepo postInteractionRepo;
 
     @Autowired
+    ForumPostRepo forumPostRepo;
+
+    @Autowired
     ForumPostQueryService forumPostQueryService;
 
     @Autowired
     PostInteractionQueryService postInteractionQueryService;
 
-    public PostInteractionResponse create (PostInteractionRequest request, Long postId,Long accountId){
-        ForumPost forumPost = forumPostQueryService.findForumPostById(postId);
+    public PostInteractionResponse create (PostInteractionRequest request, Long forumPostId,Long accountId){
+        ForumPost forumPost = forumPostQueryService.findForumPostById(forumPostId);
         PostInteraction postInteraction = modelMapper.map(request,PostInteraction.class);
         postInteraction.setPost(forumPost);
         postInteraction.setAccountId(accountId);
         postInteractionRepo.save(postInteraction);
+        forumPost.setInteractionCount(forumPost.getInteractionCount() + 1);
+        forumPostRepo.save(forumPost);
         return modelMapper.map(postInteraction,PostInteractionResponse.class);
     }
 
@@ -43,6 +50,8 @@ public class PostInteractionCommandService {
 
     public void delete (Long id){
         PostInteraction postInteraction = postInteractionQueryService.findPostInteractionById(id);
+        ForumPost forumPost = forumPostQueryService.findForumPostById(postInteraction.getPost().getId());
+        forumPost.setInteractionCount(forumPost.getInteractionCount()-1);
         postInteractionRepo.delete(postInteraction);
     }
 

@@ -13,4 +13,6 @@ public interface ForumPostRepo extends JpaRepository<ForumPost,Long> {
     Optional<ForumPost> findForumPostById(Long id);
 
     Page<ForumPost> findAllByAccountId(PageRequest pageRequest, Long accountId);
+
+    Page<ForumPost> findAllBySharedPost_Id(PageRequest pageRequest, Long forumPostId);
 }
