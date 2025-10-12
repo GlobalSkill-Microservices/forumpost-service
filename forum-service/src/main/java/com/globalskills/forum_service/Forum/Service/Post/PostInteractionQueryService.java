@@ -24,6 +24,18 @@ public class PostInteractionQueryService {
     @Autowired
     PostInteractionRepo postInteractionRepo;
 
+    public PostInteraction findPostInteractionByPost_IdAndAccountId(Long postId,Long accountId){
+        return postInteractionRepo.findByPost_IdAndAccountId(postId,accountId);
+    }
+
+    public Boolean isReact(Long postId,Long accountId){
+        PostInteraction postInteraction = findPostInteractionByPost_IdAndAccountId(postId, accountId);
+        if(postInteraction==null){
+            return false;
+        }
+        return true;
+    }
+
     public PostInteraction findPostInteractionById(Long id){
         return postInteractionRepo.findPostInteractionById(id).orElseThrow(()->new PostInteractionException("Can't find post interaction", HttpStatus.NOT_FOUND));
     }

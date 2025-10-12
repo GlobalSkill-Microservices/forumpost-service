@@ -25,6 +25,13 @@ public class PostInteractionController {
     @Autowired
     PostInteractionQueryService postInteractionQueryService;
 
+    @GetMapping("/forum-post/{forumPostId}/user/{userId}/is-react")
+    public ResponseEntity<?> checkPostReact(@PathVariable Long forumPostId,@PathVariable Long accountId){
+        Boolean isReact = postInteractionQueryService.isReact(forumPostId, accountId);
+        BaseResponseAPI<Boolean> responseAPI = new BaseResponseAPI<>(true,"Check react",isReact,null);
+        return ResponseEntity.ok(responseAPI);
+    }
+
     @PostMapping("/forum-post/{forumPostId}")
     public ResponseEntity<?> create(@RequestBody PostInteractionRequest request,
                                     @PathVariable Long forumPostId,
