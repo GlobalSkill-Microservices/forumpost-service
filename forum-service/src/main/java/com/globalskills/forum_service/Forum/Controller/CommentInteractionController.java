@@ -24,6 +24,13 @@ public class CommentInteractionController {
     @Autowired
     CommentInteractionCommandService commentInteractionCommandService;
 
+    @GetMapping("/comment/{commentId}/user/{userId}/is-react")
+    public ResponseEntity<?> isReact(@PathVariable Long commentId,@PathVariable Long accountId){
+        Boolean isReact = commentInteractionQueryService.isReact(commentId, accountId);
+        BaseResponseAPI<Boolean> responseAPI = new BaseResponseAPI<>(true,"Check react",isReact,null);
+        return ResponseEntity.ok(responseAPI);
+    }
+
     @PostMapping("/comment/{commentId}")
     public ResponseEntity<?> create (@RequestBody CommentInteractionRequest request,
                                      @PathVariable Long commentId,
@@ -39,6 +46,13 @@ public class CommentInteractionController {
                                     @PathVariable Long id){
         CommentInteractionResponse response = commentInteractionCommandService.update(request, id);
         BaseResponseAPI<CommentInteractionResponse> responseAPI = new BaseResponseAPI<>(true,"Update comment interaction response",response,null);
+        return ResponseEntity.ok(responseAPI);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        commentInteractionCommandService.delete(id);
+        BaseResponseAPI<?> responseAPI = new BaseResponseAPI<>(true,"Delete comment react successfully",null,null);
         return ResponseEntity.ok(responseAPI);
     }
 

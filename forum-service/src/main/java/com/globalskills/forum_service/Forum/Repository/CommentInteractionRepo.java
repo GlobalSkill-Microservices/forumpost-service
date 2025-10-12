@@ -13,4 +13,6 @@ public interface CommentInteractionRepo extends JpaRepository<CommentInteraction
     Optional<CommentInteraction> findCommentInteractionById(Long id);
 
     Page<CommentInteraction> findAllByComment_Id(PageRequest pageRequest, Long commentId);
+
+    CommentInteraction findByComment_IdAndAccountId(Long commentId, Long accountId);
 }

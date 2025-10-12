@@ -24,6 +24,18 @@ public class CommentInteractionQueryService {
     @Autowired
     ModelMapper modelMapper;
 
+    public CommentInteraction findByComment_IdAndAccountId(Long commentId,Long accountId){
+        return commentInteractionRepo.findByComment_IdAndAccountId(commentId,accountId);
+    }
+
+    public Boolean isReact(Long commentId, Long accountId){
+        CommentInteraction commentInteraction = findByComment_IdAndAccountId(commentId, accountId);
+        if(commentInteraction==null){
+            return false;
+        }
+        return true;
+    }
+
     public CommentInteraction findById(Long id){
         return commentInteractionRepo.findCommentInteractionById(id).orElseThrow(()-> new CommentInteractionException("Can't find comment interaction", HttpStatus.NOT_FOUND));
     }

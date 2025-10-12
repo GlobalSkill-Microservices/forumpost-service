@@ -13,4 +13,6 @@ public interface PostInteractionRepo extends JpaRepository<PostInteraction,Long>
     Optional<PostInteraction> findPostInteractionById(Long id);
 
     Page<PostInteraction> findAllByPost_Id(PageRequest pageRequest, Long forumPostId);
+
+    PostInteraction findByPost_IdAndAccountId(Long postId,Long accountId);
 }
