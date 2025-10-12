@@ -24,8 +24,10 @@ public class CommentInteractionController {
     @Autowired
     CommentInteractionCommandService commentInteractionCommandService;
 
-    @GetMapping("/comment/{commentId}/user/{userId}/is-react")
-    public ResponseEntity<?> isReact(@PathVariable Long commentId,@PathVariable Long accountId){
+    @GetMapping("/comment/{commentId}/is-react")
+    public ResponseEntity<?> isReact(@PathVariable Long commentId,
+                                     @Parameter(hidden = true)
+                                     @RequestHeader(value = "X-User-ID",required = false) Long accountId){
         Boolean isReact = commentInteractionQueryService.isReact(commentId, accountId);
         BaseResponseAPI<Boolean> responseAPI = new BaseResponseAPI<>(true,"Check react",isReact,null);
         return ResponseEntity.ok(responseAPI);

@@ -35,7 +35,7 @@ public class Comment {
     @JoinColumn(name = "parent_id")
     Comment parent;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     List<Comment> replies;
 
     Integer commentInteractionCount = 0;
