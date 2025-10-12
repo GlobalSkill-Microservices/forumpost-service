@@ -41,11 +41,11 @@ public class CommentCommandService {
             newComment.setCreatedAt(new Date());
             newComment.setPost(forumPost);
             newComment.setParent(parentComment);
+            commentRepo.save(newComment);
 
             forumPost.setCommentCount(forumPost.getCommentCount()+1);
             forumPostRepo.save(forumPost);
 
-            commentRepo.save(newComment);
             CommentResponse commentResponse = modelMapper.map(newComment, CommentResponse.class);
             ParentCommentResponse parentCommentResponse = modelMapper.map(parentComment, ParentCommentResponse.class);
             commentResponse.setParentCommentResponse(parentCommentResponse);
