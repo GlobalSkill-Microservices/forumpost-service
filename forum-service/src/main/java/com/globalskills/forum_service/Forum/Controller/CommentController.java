@@ -24,12 +24,13 @@ public class CommentController {
     @Autowired
     CommentQueryService commentQueryService;
 
-    @PostMapping
+    @PostMapping("/forum-post/{postId}")
     public ResponseEntity<?> create(@RequestBody CommentRequest request,
+                                    @PathVariable Long postId,
                                     @RequestParam(required = false) Long replyCommentId,
                                     @Parameter(hidden = true)
                                     @RequestHeader(value = "X-User-ID",required = false) Long accountId){
-        CommentResponse response = commentCommandService.create(request,replyCommentId,accountId);
+        CommentResponse response = commentCommandService.create(request,postId,replyCommentId,accountId);
         BaseResponseAPI<CommentResponse> responseAPI = new BaseResponseAPI<>(true,"Create comment successfully",response,null);
         return ResponseEntity.ok(responseAPI);
     }
