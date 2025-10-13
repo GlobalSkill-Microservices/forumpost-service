@@ -32,8 +32,8 @@ public class CommentCommandService {
     @Autowired
     ForumPostRepo forumPostRepo;
 
-    public CommentResponse create (CommentRequest request,Long replyCommentId,Long accountId){
-        ForumPost forumPost = forumPostQueryService.findForumPostById(request.getPostId());
+    public CommentResponse create (CommentRequest request,Long postId,Long replyCommentId,Long accountId){
+        ForumPost forumPost = forumPostQueryService.findForumPostById(postId);
         if(replyCommentId!=null){
             Comment parentComment = commentQueryService.findCommentById(replyCommentId);
             Comment newComment = modelMapper.map(request,Comment.class);
@@ -55,11 +55,11 @@ public class CommentCommandService {
         newComment.setAccountId(accountId);
         newComment.setCreatedAt(new Date());
         newComment.setPost(forumPost);
+        commentRepo.save(newComment);
 
         forumPost.setCommentCount(forumPost.getCommentCount()+1);
         forumPostRepo.save(forumPost);
 
-        commentRepo.save(newComment);
         return modelMapper.map(newComment, CommentResponse.class);
     }
 
