@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/post-interaction")
-@CrossOrigin("*")
 @SecurityRequirement(name = "api")
 public class PostInteractionController {
 

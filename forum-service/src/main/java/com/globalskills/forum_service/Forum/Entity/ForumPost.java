@@ -20,6 +20,7 @@ public class ForumPost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String title;
+    @Column(columnDefinition = "NVARCHAR(5000)")
     String content;
     Long accountId;
     Date createdAt;

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/forum-post")
-@CrossOrigin("*")
 @SecurityRequirement(name = "api")
 public class ForumPostController {
 
