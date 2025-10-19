@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/comment-interaction")
-@CrossOrigin("*")
 @SecurityRequirement(name = "api")
 public class CommentInteractionController {
 
