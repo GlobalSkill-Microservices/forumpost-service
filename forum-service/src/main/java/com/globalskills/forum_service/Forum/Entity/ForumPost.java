@@ -16,16 +16,24 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ForumPost {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     String title;
+
     @Column(columnDefinition = "NVARCHAR(5000)")
     String content;
+
     Long accountId;
+
     Date createdAt;
+
     Date updatedAt;
+
     Boolean isPublic;
+
     Boolean isDeleted;
 
     @ManyToOne

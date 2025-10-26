@@ -4,6 +4,8 @@ import com.globalskills.forum_service.Common.BaseResponseAPI;
 import com.globalskills.forum_service.Common.PageResponse;
 import com.globalskills.forum_service.Forum.Dto.CommentRequest;
 import com.globalskills.forum_service.Forum.Dto.CommentResponse;
+import com.globalskills.forum_service.Forum.Dto.ParentCommentResponse;
+import com.globalskills.forum_service.Forum.Dto.ReplyCommentResponse;
 import com.globalskills.forum_service.Forum.Service.Comment.CommentCommandService;
 import com.globalskills.forum_service.Forum.Service.Comment.CommentQueryService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -48,7 +50,7 @@ public class CommentController {
         return ResponseEntity.ok(responseAPI);
     }
 
-    @GetMapping("/forum-post/{forumPostId}")
+    @GetMapping("/all/forum-post/{forumPostId}")
     public ResponseEntity<?> getListCommentByPostId(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -56,8 +58,8 @@ public class CommentController {
             @RequestParam(defaultValue = "desc") String sortDir,
             @PathVariable Long forumPostId
     ){
-        PageResponse<CommentResponse> response = commentQueryService.getListCommentByPostId(page, size, sortBy, sortDir, forumPostId);
-        BaseResponseAPI<PageResponse<CommentResponse>> responseAPI = new BaseResponseAPI<>(true,"Get list comment successfully",response,null);
+        PageResponse<ParentCommentResponse> response = commentQueryService.getListCommentsByPostId(page, size, sortBy, sortDir, forumPostId);
+        BaseResponseAPI<PageResponse<ParentCommentResponse>> responseAPI = new BaseResponseAPI<>(true,"Get list comment successfully",response,null);
         return ResponseEntity.ok(responseAPI);
     }
 
@@ -69,9 +71,23 @@ public class CommentController {
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDir
     ){
-        PageResponse<CommentResponse> response = commentQueryService.getListRepliesOfComment(parentCommentId, page, size, sortBy, sortDir);
-        BaseResponseAPI<PageResponse<CommentResponse>> responseAPI = new BaseResponseAPI<>(true,"Get list replies comment successfully",response,null);
+        PageResponse<ReplyCommentResponse> response = commentQueryService.getListRepliesByParentCommentId(parentCommentId, page, size, sortBy, sortDir);
+        BaseResponseAPI<PageResponse<ReplyCommentResponse>> responseAPI = new BaseResponseAPI<>(true,"Get list replies comment successfully",response,null);
         return ResponseEntity.ok(responseAPI);
+    }
+
+    @GetMapping("/parent-comment/forum-post/{forumPostId}")
+    public ResponseEntity<?> getListParentCommentsByPostId(
+            @PathVariable Long forumPostId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDir
+    ){
+        PageResponse<ReplyCommentResponse> response = commentQueryService.getListRepliesByParentCommentId(forumPostId, page, size, sortBy, sortDir);
+        BaseResponseAPI<PageResponse<ReplyCommentResponse>> responseAPI = new BaseResponseAPI<>(true,"Get list parent comment successfully",response,null);
+        return ResponseEntity.ok(responseAPI);
+
     }
 
 

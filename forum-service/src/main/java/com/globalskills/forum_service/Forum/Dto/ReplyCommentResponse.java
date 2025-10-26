@@ -1,19 +1,24 @@
 package com.globalskills.forum_service.Forum.Dto;
 
 import com.globalskills.forum_service.Common.AccountDto;
-import com.globalskills.forum_service.Forum.Enum.TypeInteraction;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PostInteractionResponse {
+public class ReplyCommentResponse {
     Long id;
+    Long postId;
+    Long parentId;
     AccountDto accountId;
-    TypeInteraction typeInteraction;
+    String content;
+    Date createdAt;
+    Date updatedAt;
 }
