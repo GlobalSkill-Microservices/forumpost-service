@@ -1,5 +1,6 @@
 package com.globalskills.forum_service.Forum.Dto;
 
+import com.globalskills.forum_service.Common.AccountDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ public class SharePostResponse {
     Long id;
     String title;
     String content;
-    Long accountId;
+    AccountDto accountId;
     Integer commentCount;
     Integer shareCount;
     Integer interactionCount;

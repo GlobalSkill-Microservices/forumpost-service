@@ -16,12 +16,17 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     Long accountId;
+
     String content;
+
     Date createdAt;
+
     Date updatedAt;
 
     @ManyToOne

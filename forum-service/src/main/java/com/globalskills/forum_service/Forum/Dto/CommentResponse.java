@@ -1,5 +1,6 @@
 package com.globalskills.forum_service.Forum.Dto;
 
+import com.globalskills.forum_service.Common.AccountDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,8 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentResponse {
     Long id;
-    Long accountId;
+    Long postId;
+    AccountDto accountId;
     String content;
     Date createdAt;
     Date updatedAt;

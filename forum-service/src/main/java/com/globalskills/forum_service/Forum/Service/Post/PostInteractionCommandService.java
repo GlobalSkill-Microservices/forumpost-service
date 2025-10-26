@@ -1,5 +1,6 @@
 package com.globalskills.forum_service.Forum.Service.Post;
 
+import com.globalskills.forum_service.Common.AccountDto;
 import com.globalskills.forum_service.Forum.Dto.PostInteractionRequest;
 import com.globalskills.forum_service.Forum.Dto.PostInteractionResponse;
 import com.globalskills.forum_service.Forum.Entity.ForumPost;
@@ -8,6 +9,7 @@ import com.globalskills.forum_service.Forum.Exception.PostInteractionException;
 import com.globalskills.forum_service.Forum.Repository.ForumPostRepo;
 import com.globalskills.forum_service.Forum.Repository.PostInteractionRepo;
 import com.globalskills.forum_service.Forum.Service.Forum.ForumPostQueryService;
+import com.globalskills.forum_service.Forum.Service.ServiceClient.AccountClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +34,11 @@ public class PostInteractionCommandService {
     @Autowired
     PostInteractionQueryService postInteractionQueryService;
 
+    @Autowired
+    AccountClientService accountClientService;
+
     public PostInteractionResponse create (PostInteractionRequest request, Long forumPostId,Long accountId){
+        AccountDto author = accountClientService.fetchAccount(accountId);
         ForumPost forumPost = forumPostQueryService.findForumPostById(forumPostId);
         PostInteraction oldPostInteraction = postInteractionQueryService.findPostInteractionByPost_IdAndAccountId(forumPostId,accountId);
         if(oldPostInteraction!=null){
@@ -44,14 +50,19 @@ public class PostInteractionCommandService {
         postInteractionRepo.save(postInteraction);
         forumPost.setInteractionCount(forumPost.getInteractionCount() + 1);
         forumPostRepo.save(forumPost);
-        return modelMapper.map(postInteraction,PostInteractionResponse.class);
+        PostInteractionResponse postInteractionResponse = modelMapper.map(postInteraction,PostInteractionResponse.class);
+        postInteractionResponse.setAccountId(author);
+        return postInteractionResponse;
     }
 
     public PostInteractionResponse update (PostInteractionRequest request,Long id){
         PostInteraction oldInteraction = postInteractionQueryService.findPostInteractionById(id);
+        AccountDto author = accountClientService.fetchAccount(oldInteraction.getAccountId());
         oldInteraction.setTypeInteraction(request.getTypeInteraction());
         postInteractionRepo.save(oldInteraction);
-        return modelMapper.map(oldInteraction,PostInteractionResponse.class);
+        PostInteractionResponse postInteractionResponse = modelMapper.map(oldInteraction,PostInteractionResponse.class);
+        postInteractionResponse.setAccountId(author);
+        return postInteractionResponse;
 
     }
 
