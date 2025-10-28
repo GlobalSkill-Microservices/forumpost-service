@@ -63,7 +63,7 @@ public class CommentController {
         return ResponseEntity.ok(responseAPI);
     }
 
-    @GetMapping("/parent/{parentCommentId}")
+    @GetMapping("/reply/parent-comment/{parentCommentId}")
     public ResponseEntity<?> getListRepliesOfComment(
             @PathVariable Long parentCommentId,
             @RequestParam(defaultValue = "0") int page,
@@ -84,7 +84,7 @@ public class CommentController {
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDir
     ){
-        PageResponse<ReplyCommentResponse> response = commentQueryService.getListRepliesByParentCommentId(forumPostId, page, size, sortBy, sortDir);
+        PageResponse<ReplyCommentResponse> response = commentQueryService.getListParentCommentsByPostId(forumPostId, page, size, sortBy, sortDir);
         BaseResponseAPI<PageResponse<ReplyCommentResponse>> responseAPI = new BaseResponseAPI<>(true,"Get list parent comment successfully",response,null);
         return ResponseEntity.ok(responseAPI);
 

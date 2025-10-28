@@ -94,4 +94,16 @@ public class ForumPostController {
         BaseResponseAPI<PageResponse<ForumPostResponse>> responseAPI = new BaseResponseAPI<>(true,"Get all forum post",response,null);
         return ResponseEntity.ok(responseAPI);
     }
+
+    @GetMapping("/trending-post")
+    public ResponseEntity<?> getListTrendingPost(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDir
+    ){
+        PageResponse<ForumPostResponse> response = forumPostQueryService.getTrendingPosts(page, size, sortBy, sortDir);
+        BaseResponseAPI<PageResponse<ForumPostResponse>> responseAPI = new BaseResponseAPI<>(true,"Get trending forum post successfully",response,null);
+        return ResponseEntity.ok(responseAPI);
+    }
 }

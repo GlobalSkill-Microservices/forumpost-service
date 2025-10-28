@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 
@@ -52,4 +53,19 @@ public class ForumPost {
     Integer commentCount = 0;
     Integer shareCount = 0;
     Integer interactionCount = 0;
+
+
+    public double calculateHotScore() {
+        double score = interactionCount * 2
+                + commentCount * 1.5
+                + shareCount * 3;
+
+        long hoursSincePosted = Duration.between(
+                createdAt.toInstant(),
+                new Date().toInstant()
+        ).toHours();
+
+        return score / (hoursSincePosted + 1);
+    }
+
 }
