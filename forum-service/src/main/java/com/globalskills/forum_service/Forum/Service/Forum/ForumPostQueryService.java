@@ -136,4 +136,30 @@ public class ForumPostQueryService {
         }).toList();
     }
 
+    @Transactional(readOnly = true)
+    public PageResponse<ForumPostResponse> getTrendingPosts(
+            int page, int size, String sortBy, String sortDir
+    ){
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        Page<ForumPost> postPage = forumPostRepo.findByIsDeletedFalseAndIsPublicTrue(pageRequest);
+        if (postPage.isEmpty()) {
+            return new PageResponse<>(Collections.emptyList(), page, size, 0, 0, true);
+        }
+        List<ForumPost> sortedPosts = postPage.getContent().stream()
+                .sorted(Comparator.comparingDouble(ForumPost::calculateHotScore).reversed())
+                .toList();
+
+        List<ForumPostResponse> responses = mapForumPostsWithAccountInfo(sortedPosts);
+
+        return new PageResponse<>(
+                responses,
+                page,
+                size,
+                postPage.getTotalElements(),
+                postPage.getTotalPages(),
+                postPage.isLast());
+
+    }
+
 }
