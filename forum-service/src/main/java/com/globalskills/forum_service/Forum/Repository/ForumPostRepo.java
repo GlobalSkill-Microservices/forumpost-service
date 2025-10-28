@@ -4,6 +4,7 @@ import com.globalskills.forum_service.Forum.Entity.ForumPost;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -16,5 +17,7 @@ public interface ForumPostRepo extends JpaRepository<ForumPost,Long> {
 
     Page<ForumPost> findAllBySharedPost_Id(PageRequest pageRequest, Long forumPostId);
 
-    Page<ForumPost> findByIsDeletedFalseAndIsPublicTrue(PageRequest pageRequest);
+    @Query("SELECT f FROM ForumPost f WHERE (f.isDeleted = false OR f.isDeleted IS NULL) AND f.isPublic = true")
+    Page<ForumPost> findVisiblePosts(PageRequest pageRequest);
+
 }
