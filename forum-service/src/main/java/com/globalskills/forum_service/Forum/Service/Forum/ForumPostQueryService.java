@@ -142,7 +142,7 @@ public class ForumPostQueryService {
     ){
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(direction, sortBy));
-        Page<ForumPost> postPage = forumPostRepo.findByIsDeletedFalseAndIsPublicTrue(pageRequest);
+        Page<ForumPost> postPage = forumPostRepo.findVisiblePosts(pageRequest);
         if (postPage.isEmpty()) {
             return new PageResponse<>(Collections.emptyList(), page, size, 0, 0, true);
         }
