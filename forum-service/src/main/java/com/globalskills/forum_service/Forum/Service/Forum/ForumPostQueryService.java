@@ -107,8 +107,8 @@ public class ForumPostQueryService {
     private List<ForumPostResponse> mapForumPostsWithAccountInfo(List<ForumPost> forumPosts) {
         if (forumPosts.isEmpty()) return Collections.emptyList();
 
-        // Gom toàn bộ accountId từ post + sharedPost (nếu có)
         Set<Long> allAccountIds = new HashSet<>();
+
         for (ForumPost post : forumPosts) {
             if (post.getAccountId() != null) allAccountIds.add(post.getAccountId());
             if (post.getSharedPost() != null && post.getSharedPost().getAccountId() != null) {
@@ -120,7 +120,6 @@ public class ForumPostQueryService {
         Map<Long, AccountDto> accountMap = accounts.stream()
                 .collect(Collectors.toMap(AccountDto::getId, a -> a));
 
-        // Map sang response
         return forumPosts.stream().map(post -> {
             ForumPostResponse response = modelMapper.map(post, ForumPostResponse.class);
 
@@ -143,8 +142,15 @@ public class ForumPostQueryService {
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(direction, sortBy));
         Page<ForumPost> postPage = forumPostRepo.findVisiblePosts(pageRequest);
+
         if (postPage.isEmpty()) {
-            return new PageResponse<>(Collections.emptyList(), page, size, 0, 0, true);
+            return new PageResponse<>(
+                    Collections.emptyList(),
+                    page,
+                    size,
+                    0,
+                    0,
+                    true);
         }
         List<ForumPost> sortedPosts = postPage.getContent().stream()
                 .sorted(Comparator.comparingDouble(ForumPost::calculateHotScore).reversed())

@@ -24,7 +24,7 @@ public class ForumPost {
 
     String title;
 
-    @Column(columnDefinition = "NVARCHAR(5000)")
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     String content;
 
     Long accountId;
