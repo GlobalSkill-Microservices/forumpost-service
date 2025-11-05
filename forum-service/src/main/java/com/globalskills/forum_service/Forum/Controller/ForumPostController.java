@@ -91,7 +91,7 @@ public class ForumPostController {
             @PathVariable Long forumPostId
     ){
         PageResponse<ForumPostResponse> response = forumPostQueryService.getListShareOfPost(forumPostId, page, size, sortBy, sortDir);
-        BaseResponseAPI<PageResponse<ForumPostResponse>> responseAPI = new BaseResponseAPI<>(true,"Get all forum post",response,null);
+        BaseResponseAPI<PageResponse<ForumPostResponse>> responseAPI = new BaseResponseAPI<>(true,"Get all forum post that shared from post :"+forumPostId,response,null);
         return ResponseEntity.ok(responseAPI);
     }
 
